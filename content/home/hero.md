@@ -9,7 +9,7 @@ title = "Academic"
 weight = 3
 
 # Hero image (optional). Enter filename of an image in the `static/img/` folder.
-hero_media = ""
+hero_media = "hero-academic.png"
 
 # Background (optional).
 #   Choose from a background color, gradient, or image.
