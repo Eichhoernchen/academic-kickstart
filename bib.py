@@ -114,8 +114,14 @@ def parse_bibtex_entry(entry, pub_dir='publication', featured=False, overwrite=F
 
     # Save citation file.
     print(f'Saving citation to {cite_path}')
+    EXPORT_KEYS=["author", "booktitle", "doi", "month", "journal",  "publisher", "series", "title", "year", "ENTRYTYPE", "ID"]
+    save_entry = {}
+    for exkey in EXPORT_KEYS:
+        if exkey in entry:
+            save_entry[exkey] = entry[exkey]
+
     db = BibDatabase()
-    db.entries = [entry]
+    db.entries = [save_entry]
     writer = BibTexWriter()
     with open(cite_path, 'w', encoding='utf-8') as f:
         f.write(writer.write(db))

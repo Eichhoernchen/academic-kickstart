@@ -5,7 +5,7 @@
 widget = "publications_featured"  # Do not modify this line!
 active = true  # Activate this widget? true/false
 
-title = "Featured Publications"
+title = "Selected Publications"
 subtitle = ""
 
 # Order that this section will appear in.
