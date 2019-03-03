@@ -5,6 +5,9 @@
   {{- .Params.series | markdownify -}} 
    {{ if in .Params.publication_types "1" }}
     {{- " '" -}}{{- .Date.Format "06" -}}
+     {{ if .Params.note }}
+     <i> ({{- .Params.note -}})</i>
+     {{ end }}
    {{ end }}
   {{ end }}
   </bold>

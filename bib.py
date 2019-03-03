@@ -181,6 +181,9 @@ def parse_bibtex_entry(entry, pub_dir='publication', featured=False, overwrite=F
     if 'doi' in entry:
         frontmatter.append(f'doi = "{entry["doi"]}"')
 
+    if 'note' in entry:
+        frontmatter.append(f'note = "{entry["note"]}"')
+
     if 'series' in entry:
         frontmatter.append(f'series = "{entry["series"]}"')
 
