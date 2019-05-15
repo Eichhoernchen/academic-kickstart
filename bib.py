@@ -154,6 +154,11 @@ def parse_bibtex_entry(entry, pub_dir='publication', featured=False, overwrite=F
     else:
         frontmatter.append(f'featured = {str(featured).lower()}')
 
+
+    if 'number' in entry:
+        frontmatter.append(f'number = "{clean_bibtex_str(entry["number"])}"')
+    else:
+        frontmatter.append('number = ""')
     # Publication name.
     if 'booktitle' in entry:
         frontmatter.append(f'publication = "*{clean_bibtex_str(entry["booktitle"])}*"')

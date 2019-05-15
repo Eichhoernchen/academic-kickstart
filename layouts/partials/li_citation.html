@@ -28,6 +28,8 @@
   {{- .Params.publication_short | markdownify -}}.
   {{ else if .Params.publication }}
   {{- .Params.publication | markdownify -}}.
+  {{ else if .Params.number }}
+  {{- .Params.number | markdownify -}},
   {{ end }}
   <p>{{ partial "page_links" (dict "content" . "is_list" 1) }}</p>
 
@@ -42,6 +44,8 @@
   {{- .Params.publication_short | markdownify -}},
   {{ else if .Params.publication }}
   {{- .Params.publication | markdownify -}},
+  {{ else if .Params.number }}
+  {{- .Params.number | markdownify -}},
   {{ end }}
   {{- .Date.Format "2006" -}}.
   <p>{{ partial "page_links" (dict "content" . "is_list" 1) }}</p>
