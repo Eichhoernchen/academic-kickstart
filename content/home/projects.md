@@ -2,6 +2,7 @@
 # Projects widget.
 widget = "projects"  # Do not modify this line!
 active = false  # Activate this widget? true/false
+headless = true
 
 title = "Projects"
 subtitle = ""

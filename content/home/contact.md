@@ -1,4 +1,5 @@
 +++
+headless = true
 # Contact widget.
 widget = "contact"  # Do not modify this line!
 active = true  # Activate this widget? true/false

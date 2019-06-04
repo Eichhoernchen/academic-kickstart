@@ -1,4 +1,5 @@
 +++
+headless = true
 # About/Biography widget.
 widget = "about"  # Do not modify this line!
 active = true  # Activate this widget? true/false

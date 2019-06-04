@@ -25,20 +25,34 @@ CSS_FILENAME = 'static/css/vendor/main.min.css'
 
 # Map BibTeX to Academic publication types.
 PUB_TYPES = {
+    'article': "pub_journal",
+    'book': "pub_book",
+    'inbook': "pub_book_section",
+    'incollection': "pub_book_section",
+    'inproceedings': "pub_conf",
+    'manual': "pub_report",
+    'mastersthesis': "pub_thesis",
+    'misc': "pub_uncat",
+    'phdthesis': "pub_thesis",
+    'proceedings': "pub_conf",
+    'techreport': "pub_report",
+    'unpublished': "pub_preprint"
+}
+PUB_TYPES = {
     'article': 2,
     'book': 5,
     'inbook': 6,
     'incollection': 6,
     'inproceedings': 1,
     'manual': 4,
-    'mastersthesis': 4,
+    'mastersthesis': 7,
     'misc': 0,
-    'phdthesis': 4,
+    'phdthesis': 7,
     'proceedings': 0,
     'techreport': 4,
-    'unpublished': 3
+    'unpublished': 3,
+    'patent': 8
 }
-
 
 def main():
     """Parse command-line arguments"""
@@ -126,13 +140,13 @@ def parse_bibtex_entry(entry, pub_dir='publication', featured=False, overwrite=F
     with open(cite_path, 'w', encoding='utf-8') as f:
         f.write(writer.write(db))
 
-    # Prepare TOML front matter for Markdown file.
-    frontmatter = ['+++']
-    frontmatter.append(f'title = "{clean_bibtex_str(entry["title"])}"')
+    # Prepare YAML front matter for Markdown file.
+    frontmatter = ['---']
+    frontmatter.append(f'title: "{clean_bibtex_str(entry["title"])}"')
     if 'month' in entry:
-        frontmatter.append(f"date = {entry['year']}-{month2number(entry['month'])}-01")
+        frontmatter.append(f"date: {entry['year']}-{month2number(entry['month'])}-01")
     else:
-        frontmatter.append(f"date = {entry['year']}-01-01")
+        frontmatter.append(f"date: {entry['year']}-01-01")
 
     authors = None
     if 'author' in entry:
@@ -141,58 +155,63 @@ def parse_bibtex_entry(entry, pub_dir='publication', featured=False, overwrite=F
         authors = entry['editor']
     if authors:
         authors = clean_bibtex_authors([i.strip() for i in authors.replace('\n', ' ').split(' and ')])
-        frontmatter.append(f"authors = [{', '.join(authors)}]")
+        print(authors)
+        authors = map(lambda x: '"**Jan Rüth**"' if x == '"Jan Rüth"' else x, authors)
+        frontmatter.append(f"authors: [{', '.join(authors)}]")
 
-    frontmatter.append(f'publication_types = ["{PUB_TYPES.get(entry["ENTRYTYPE"], 0)}"]')
+    frontmatter.append(f'publication_types: ["{PUB_TYPES.get(entry["ENTRYTYPE"], 0)}"]')
 
     if 'abstract' in entry:
-        frontmatter.append(f'abstract = "{clean_bibtex_str(entry["abstract"])}"')
+        frontmatter.append(f'abstract: "{clean_bibtex_str(entry["abstract"])}"')
     else:
-        frontmatter.append('abstract = ""')
+        frontmatter.append('abstract: ""')
     if 'featured' in entry:
-        frontmatter.append(f'featured = true')
+        frontmatter.append(f'featured: true')
     else:
-        frontmatter.append(f'featured = {str(featured).lower()}')
+        frontmatter.append(f'featured: {str(featured).lower()}')
+
+    if 'publisher' in entry:
+        frontmatter.append(f'publisher: "{entry["publisher"]}"')
 
 
     if 'number' in entry:
-        frontmatter.append(f'number = "{clean_bibtex_str(entry["number"])}"')
+        frontmatter.append(f'number: "{clean_bibtex_str(entry["number"])}"')
     else:
-        frontmatter.append('number = ""')
+        frontmatter.append('number: ""')
     # Publication name.
     if 'booktitle' in entry:
-        frontmatter.append(f'publication = "*{clean_bibtex_str(entry["booktitle"])}*"')
+        frontmatter.append(f'publication: "*{clean_bibtex_str(entry["booktitle"])}*"')
     elif 'journal' in entry:
-        frontmatter.append(f'publication = "*{clean_bibtex_str(entry["journal"])}*"')
+        frontmatter.append(f'publication: "*{clean_bibtex_str(entry["journal"])}*"')
     else:
-        frontmatter.append('publication = ""')
+        frontmatter.append('publication: ""')
 
     if 'keywords' in entry:
-        frontmatter.append(f'tags = [{clean_bibtex_tags(entry["keywords"], normalize)}]')
+        frontmatter.append(f'tags: [{clean_bibtex_tags(entry["keywords"], normalize)}]')
 
     url_keys = filter(lambda x: x.startswith("url"), entry.keys())
     links = []
     for url_key in url_keys:
         print(f"PRocessing {url_key}")
         if url_key == "url":
-            frontmatter.append(f'url_pdf = "{clean_bibtex_str(entry["url"])}"')
+            frontmatter.append(f'url_pdf: "{clean_bibtex_str(entry["url"])}"')
         else:
             links.append({"name": url_key[4:], "url": f"{clean_bibtex_str(entry[url_key])}"})
     if len(links) > 0:
         links = sorted(links, key=lambda x: x["name"])
-        links = map(lambda x: f'{{"name"="{x["name"]}", "url"="{x["url"]}"}}', links)
-        frontmatter.append(f'links = [{",".join(links)}]')
+        links = map(lambda x: f'{{"name":"{x["name"]}", "url":"{x["url"]}"}}', links)
+        frontmatter.append(f'links: [{",".join(links)}]')
 
     if 'doi' in entry:
-        frontmatter.append(f'doi = "{entry["doi"]}"')
+        frontmatter.append(f'doi: "{entry["doi"]}"')
 
     if 'note' in entry:
-        frontmatter.append(f'note = "{entry["note"]}"')
+        frontmatter.append(f'note: "{entry["note"]}"')
 
     if 'series' in entry:
-        frontmatter.append(f'series = "{entry["series"]}"')
+        frontmatter.append(f'series: "{entry["series"]}"')
 
-    frontmatter.append('+++\n\n')
+    frontmatter.append('---\n\n')
 
     # Save Markdown file.
     try:

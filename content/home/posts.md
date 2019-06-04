@@ -4,6 +4,7 @@
 widget = "posts"  # Do not modify this line!
 active = false  # Activate this widget? true/false
 weight = 40  # Order that this section will appear.
+headless = true
 
 title = "Recent Posts"
 subtitle = ""
