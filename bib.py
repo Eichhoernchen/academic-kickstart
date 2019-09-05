@@ -102,7 +102,7 @@ def import_bibtex(bibtex, pub_dir='publication', featured=False, overwrite=False
 
     # Load BibTeX file for parsing.
     with open(bibtex, 'r', encoding='utf-8') as bibtex_file:
-        parser = BibTexParser(common_strings=True)
+        parser = BibTexParser(common_strings=True, interpolate_strings=False)
         parser.customization = convert_to_unicode
         bib_database = bibtexparser.load(bibtex_file, parser=parser)
         for entry in bib_database.entries:
@@ -111,7 +111,7 @@ def import_bibtex(bibtex, pub_dir='publication', featured=False, overwrite=False
 
 def parse_bibtex_entry(entry, pub_dir='publication', featured=False, overwrite=False, normalize=False):
     """Parse a bibtex entry and generate corresponding publication bundle"""
-    print(f"Parsing entry {entry['ID']}")
+    print(f"Parsing entry {entry['ID']}: {entry['title']}")
 
     bundle_path = f"content/{pub_dir}/{slugify(entry['ID'])}"
     markdown_path = os.path.join(bundle_path, 'index.md')
@@ -266,6 +266,7 @@ def clean_bibtex_authors(author_str):
 
 def clean_bibtex_str(s):
     """Clean BibTeX string and escape TOML special characters"""
+#    s = re.sub(r"\\discretionary\{([^}]*)\}\{([^}]*)\}\{([^}]*)\}", "\\3", s, 0)
     s = s.replace('\\', '')
     s = s.replace('"', '\\"')
     s = s.replace('{', '').replace('}', '')
