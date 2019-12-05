@@ -1,6 +1,7 @@
 {{/* Display author list. */}}
 
 {{ $taxonomy := "authors" }}
+{{ $lastauthors := sub (len (.Param "authors")) 1 }}
 {{ with .Param $taxonomy }}
   {{ range $index, $value := . }}
     {{- $profile_page := site.GetPage (printf "/%s/%s" $taxonomy (. | urlize)) -}}
@@ -12,6 +13,7 @@
 	  <a href="{{.RelPermalink}}">{{$name|markdownify}}</a>
 	{{- else -}}
 	  <a>{{$name}}</a>
+	  {{- if eq $index $lastauthors }}. {{ end -}}
 	{{- end -}}
       {{- else -}}
         {{$name}}

@@ -41,7 +41,7 @@
 
   <span itemprop="author">
     {{ partial "page_metadata_authors" . }}
-  </span>.
+  </span>
   <a href="{{ .RelPermalink }}" itemprop="name">{{ .Title }}</a>.
   {{ if .Params.publication_short }}
   {{- .Params.publication_short | markdownify -}},
