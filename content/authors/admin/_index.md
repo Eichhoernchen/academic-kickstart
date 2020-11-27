@@ -9,7 +9,7 @@ authors = ["admin"]
 superuser = true
 
 # Role/position
-role = "Researcher and PhD Student"
+role = "Researcher"
 
 # Organizations/Affiliations
 #   Separate multiple entries with a comma, using the form: `[ {name="Org1", url=""}, {name="Org2", url=""} ]`.
@@ -33,10 +33,10 @@ interests = [
 user_groups = ["Researchers", "Visitors"]
 
 # List qualifications (such as academic degrees)
-#[[education.courses]]
-#  course = "PhD (Dr. rer. nat)"
-#  institution = "RWTH Aachen University"
-#  year = 2019
+[[education.courses]]
+  course = "PhD (Dr. rer. nat)"
+  institution = "RWTH Aachen University"
+  year = 2020
 
 [[education.courses]]
   course = "M.Sc. in Computer Science"

@@ -130,6 +130,7 @@ def parse_bibtex_entry(entry, pub_dir='publication', featured=False, overwrite=F
     print(f'Saving citation to {cite_path}')
     EXPORT_KEYS=["author", "booktitle", "doi", "month", "journal",  "publisher", "series", "title", "year", "ENTRYTYPE", "ID"]
     save_entry = {}
+    print(f'bibentry: {entry}')
     for exkey in EXPORT_KEYS:
         if exkey in entry:
             save_entry[exkey] = entry[exkey]
